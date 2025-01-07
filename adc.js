@@ -57,14 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const radius = 30; // Circle radius
 
   // ! Load data
-  d3.json("results2_updates.json").then(function (data) {
+  d3.json("results_with_affect_and_toxicity_updated.json").then(function (
+    data
+  ) {
     // Parse data and convert necessary fields to numbers
     data.forEach((d, i) => {
-      d.avg_AoA = +d.avg_AoA;
-      d.avg_biggest_words_rating = +d.avg_biggest_words_rating;
-      d.avg_smallest_words_rating = +d.avg_smallest_words_rating;
-      d.biggest_sentence_rating = +d.biggest_sentence_rating;
-      d.smallest_sentence_rating = +d.smallest_sentence_rating;
+      d.arousal_high_pct = +d.arousal_high_pct;
+      d.dominance_low_pct = +d.dominance_low_pct;
+      d.concreteness_high_pct = +d.concreteness_high_pct;
 
       // Check if imagePath exists
       if (d.imagePath) {
@@ -91,26 +91,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const xScales = {
       speech: d3
         .scaleLinear()
-        .domain(d3.extent(data, (d) => d.avg_AoA))
+        .domain(d3.extent(data, (d) => d.arousal_high_pct))
         .range([50, width - 50]),
       bigWords: d3
         .scaleLinear()
-        .domain(d3.extent(data, (d) => d.avg_biggest_words_rating))
+        .domain(d3.extent(data, (d) => d.dominance_low_pct))
         .range([50, width - 50]),
       smallWords: d3
         .scaleLinear()
-        .domain(d3.extent(data, (d) => d.avg_smallest_words_rating))
-        .range([50, width - 50]),
-      sentences: d3
-        .scaleLinear()
-        .domain(d3.extent(data, (d) => d.biggest_sentence_rating))
+        .domain(d3.extent(data, (d) => d.concreteness_high_pct))
         .range([50, width - 50]),
     };
 
     // Create initial simulation with stronger collision force
     let simulation = d3
       .forceSimulation(data)
-      .force("x", d3.forceX((d) => xScales.speech(d.avg_AoA)).strength(0.2))
+      .force(
+        "x",
+        d3.forceX((d) => xScales.speech(d.arousal_high_pct)).strength(0.2)
+      )
       .force("y", d3.forceY(height / 2).strength(0.1))
       .force("collide", d3.forceCollide(radius + 1).strength(1)) // Increased strength and added 1px buffer
       .velocityDecay(0.3)
@@ -168,10 +167,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add buttons
     const buttons = [
-      { id: "speech-btn", text: "Speech", mode: "speech" },
-      { id: "bigWords-btn", text: "Big Words", mode: "bigWords" },
-      { id: "smallWords-btn", text: "Small Words", mode: "smallWords" },
-      { id: "sentences-btn", text: "Sentences", mode: "sentences" },
+      { id: "speech-btn", text: "Arousal", mode: "speech" },
+      { id: "bigWords-btn", text: "Dominance", mode: "bigWords" },
+      { id: "smallWords-btn", text: "Concreteness", mode: "smallWords" },
     ];
 
     buttons.forEach((button) => {
@@ -192,10 +190,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateAxisLabels(mode) {
       const labels = {
-        speech: ["Younger AoA", "Older AoA"],
-        bigWords: ["Lower Rating", "Higher Rating"],
-        smallWords: ["Lower Rating", "Higher Rating"],
-        sentences: ["Lower Rating", "Higher Rating"],
+        speech: ["Lower Arousal", "Higher Arousal"],
+        bigWords: ["Lower Dominance", "Higher Dominance"],
+        smallWords: ["Lower Concreteness", "Higher Concreteness"],
       };
 
       // Update left label
@@ -256,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .attr("text-anchor", "middle")
       .style("font-family", "RoughTypewriter")
       .style("font-size", "16px")
-      .text("Younger AoA");
+      .text("Lower Arousal");
 
     leftGroup
       .append("image")
@@ -276,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .attr("text-anchor", "middle")
       .style("font-family", "RoughTypewriter")
       .style("font-size", "16px")
-      .text("Older AoA");
+      .text("Higher Arousal");
 
     rightGroup
       .append("image")
@@ -301,13 +298,11 @@ document.addEventListener("DOMContentLoaded", () => {
         .forceX((d) => {
           switch (mode) {
             case "speech":
-              return xScales.speech(d.avg_AoA);
+              return xScales.speech(d.arousal_high_pct);
             case "bigWords":
-              return xScales.bigWords(d.avg_biggest_words_rating);
+              return xScales.bigWords(d.dominance_low_pct);
             case "smallWords":
-              return xScales.smallWords(d.avg_smallest_words_rating);
-            case "sentences":
-              return xScales.sentences(d.biggest_sentence_rating);
+              return xScales.smallWords(d.concreteness_high_pct);
           }
         })
         .strength(0.2);
@@ -327,46 +322,35 @@ document.addEventListener("DOMContentLoaded", () => {
       let htmlContent = `<h3>${d.President}</h3>`;
 
       if (activeButtonId === "speech-btn") {
-        htmlContent += `A ${d.avg_AoA.toFixed(
-          2
-        )} year old could recognize every word in ${
+        // Extract just the words from the highest arousal words
+        const highArousalWords = d.arousal_extremes.highest.map(
+          (item) => item[0]
+        );
+        const formattedWords = highArousalWords.join('," "');
+
+        htmlContent += `${d.arousal_high_pct.toFixed(2)}% of ${
           d.President
-        }'s SOTU addresses.`;
+        }'s State of the Union speeches are categorized as "highly arousing." Some of these words include "${formattedWords}."`;
       } else if (activeButtonId === "bigWords-btn") {
-        htmlContent += `Average Big Words Rating: ${d.avg_biggest_words_rating.toFixed(
-          2
-        )}<br><br>`;
-        if (
-          Array.isArray(d.biggest_words) &&
-          Array.isArray(d.biggest_words_definitions)
-        ) {
-          d.biggest_words.forEach((word, i) => {
-            const definition =
-              d.biggest_words_definitions[i] || "No definition available";
-            htmlContent += `<strong>${word}:</strong> ${definition}<br>`;
-          });
-        }
+        // Extract just the words from the lowest dominance words
+        const lowDominanceWords = d.dominance_extremes.lowest.map(
+          (item) => item[0]
+        );
+        const formattedWords = lowDominanceWords.join('," "');
+
+        htmlContent += `${d.dominance_low_pct.toFixed(2)}% of ${
+          d.President
+        }'s State of the Union speeches are categorized as "high dominance." Some of these words include "${formattedWords}."`;
       } else if (activeButtonId === "smallWords-btn") {
-        htmlContent += `Average Small Words Rating: ${d.avg_smallest_words_rating.toFixed(
-          2
-        )}<br><br>`;
-        if (
-          Array.isArray(d.smallest_words) &&
-          Array.isArray(d.smallest_words_definitions)
-        ) {
-          d.smallest_words.forEach((word, i) => {
-            const definition =
-              d.smallest_words_definitions[i] || "No definition available";
-            htmlContent += `<strong>${word}:</strong> ${definition}<br>`;
-          });
-        }
-      } else if (activeButtonId === "sentences-btn") {
-        htmlContent += `<strong>Biggest Sentence (Rating: ${d.biggest_sentence_rating.toFixed(
-          2
-        )}):</strong><br>${d.biggest_sentence}<br><br>`;
-        htmlContent += `<strong>Smallest Sentence (Rating: ${d.smallest_sentence_rating.toFixed(
-          2
-        )}):</strong><br>${d.smallest_sentence}`;
+        // Extract just the words from the highest concreteness words
+        const highConcreteWords = d.concreteness_extremes.highest.map(
+          (item) => item[0]
+        );
+        const formattedWords = highConcreteWords.join('," "');
+
+        htmlContent += `${d.concreteness_high_pct.toFixed(2)}% of ${
+          d.President
+        }'s State of the Union speeches are categorized as "highly concrete." Some of these words include "${formattedWords}."`;
       }
 
       tooltip.html(htmlContent);

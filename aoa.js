@@ -38,12 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("ry", 5)
     .style("stroke", "black")
     .style("stroke-width", "1px")
-    .attr("fill", "url(#aoa-gradient)");
+    .attr("fill", "url(#gradient)");
 
   // Define linear gradient
   const gradient = defs
     .append("linearGradient")
-    .attr("id", "aoa-gradient")
+    .attr("id", "gradient")
     .attr("x1", "0%")
     .attr("y1", "0%")
     .attr("x2", "100%")

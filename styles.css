@@ -1,0 +1,403 @@
+@import url(https://db.onlinewebfonts.com/c/40c18ed74d6926428c6d53f2d078543a?family=RoughTypewriter);
+@import url(https://db.onlinewebfonts.com/c/33bbdf407f3eb64f5f4cee6c5bb23e8d?family=Sketch+Gothic+School);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 8944px;
+}
+
+.container {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 100%;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  height: 100%;
+}
+
+.intro-text-container {
+  position: absolute;
+  top: 35%;
+  left: 0;
+  transform: translateY(-50%);
+  padding: 100px;
+  z-index: 1;
+}
+
+.intro-text-container h1 {
+  font-family: "Sketch Gothic School", sans-serif;
+  font-size: 100px;
+  font-weight: 100;
+  line-height: 100px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-bottom: 20px;
+}
+
+.intro-text-container p {
+  font-family: "Averia Serif Libre", serif;
+  font-size: 22px;
+  font-weight: 100;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+  column-count: 2;
+  column-gap: 30px;
+  max-width: 800px;
+  font-style: italic;
+}
+
+.highlight-green {
+  background-color: #c6ff7c;
+  border-radius: 5px;
+  padding: 2px 5px;
+  color: inherit;
+}
+
+.highlight-yellow {
+  background-color: #fbff7c;
+  border-radius: 5px;
+  padding: 2px 5px;
+  color: inherit;
+}
+
+.highlight-orange {
+  background-color: #ffd966;
+  border-radius: 5px;
+  padding: 2px 5px;
+  color: inherit;
+}
+
+.intro {
+  grid-column: 1 / -1;
+  background: #eee;
+  height: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.intro video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  opacity: 0.1;
+}
+
+.aoa-text-section {
+  height: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aoa-text-container {
+  padding: 40px;
+  max-width: 800px;
+}
+
+.aoa-text-container h2 {
+  font-family: "Sketch Gothic School", sans-serif;
+  font-size: 52px;
+  font-weight: 100;
+  line-height: 52px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-bottom: 20px;
+}
+
+.aoa-text-container p {
+  font-family: "Averia Serif Libre", serif;
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  font-style: italic;
+  column-count: 2;
+  column-gap: 30px;
+}
+
+.aoa-right-column {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 174px;
+  transform: translateY(-450px);
+}
+
+.img-section {
+  background: #eee;
+  height: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* border: 1px solid black; */
+  border-radius: 5px;
+}
+
+.img-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  border-radius: 5px;
+}
+
+.aoa-info-box {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.aoa-info-header {
+  background-color: #fbff7c;
+  border-bottom: 1px solid black;
+  border-radius: 5px 5px 0 0;
+  font-family: "Averia Serif Libre";
+  font-size: 22px;
+  padding: 20px 20px;
+  text-align: left;
+}
+
+.info-body {
+  font-family: "Averia Serif Libre";
+  font-size: 16px;
+  padding: 25px;
+  line-height: 1.4;
+}
+
+.aoa-info-box img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.aoa-viz {
+  grid-column: 1 / -1;
+  height: 80vh;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-400px);
+}
+
+.adc-viz {
+  grid-column: 1 / -1;
+  height: 80vh;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-400px);
+}
+
+.labels-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.left-label,
+.right-label {
+  position: absolute;
+  top: 50%;
+  font-size: 22px;
+  color: #666;
+}
+
+.left-label {
+  left: -40px;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: left center;
+}
+
+.right-label {
+  right: -40px;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: right center;
+}
+
+/* .svg-section svg {
+  width: 85vw;
+  height: 80vh;
+} */
+
+.button-container {
+  z-index: 10;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-btn {
+  margin: 0 5px;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+  background: rgba(251, 255, 124, 0.2);
+}
+
+.toggle-btn.active {
+  background-color: #fbff7c;
+}
+
+#tooltip {
+  position: absolute;
+  background: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  pointer-events: auto;
+  max-width: 300px;
+  z-index: 100;
+  font-family: "Averia Serif Libre", cursive;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+#tooltip h3 {
+  font-family: "RoughTypewriter", monospace;
+  font-size: 18px;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+#tooltip strong {
+  font-weight: bold;
+  color: #333;
+}
+
+#tooltip br {
+  margin-bottom: 8px;
+}
+
+/* .axis-labels text {
+  fill: #666;
+  font-size: 22px;
+} */
+
+/* .axis-label.left {
+  transform: rotate(-90deg);
+  transform-origin: -60px 50%; /* Moved further left from -40px */
+
+/* .axis-label.right {
+  transform: rotate(-90deg);
+  transform-origin: calc(100% + 40px) 50%; /* Moved further right */
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ADC Styles */
+.adc-text-section {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.adc-text-container {
+  padding: 40px;
+  max-width: 800px;
+}
+
+.adc-text-container h2 {
+  font-family: "Sketch Gothic School", sans-serif;
+  font-size: 52px;
+  font-weight: 100;
+  line-height: 52px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-bottom: 20px;
+}
+
+.adc-text-container p {
+  font-family: "Averia Serif Libre", serif;
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  font-style: italic;
+  column-count: 2;
+  column-gap: 30px;
+}
+
+.adc-left-column {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 174px;
+  transform: translateY(-450px);
+}
+
+.adc-left-column img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.adc-info-header {
+  background-color: #ffd966;
+  border-bottom: 1px solid black;
+  border-radius: 5px 5px 0 0;
+  font-family: "Averia Serif Libre";
+  font-size: 22px;
+  padding: 20px 20px;
+  text-align: left;
+}
+.adc-info-box {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.adc-viz {
+  grid-column: 1 / -1;
+  height: 80vh;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-400px);
+}

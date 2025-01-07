@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SOTU Analysis</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://db.onlinewebfonts.com/c/33bbdf407f3eb64f5f4cee6c5bb23e8d?family=Sketch+Gothic+School"
+      rel="stylesheet"
+    />
+    <link
+      href="https://db.onlinewebfonts.com/c/40c18ed74d6926428c6d53f2d078543a?family=RoughTypewriter"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <div class="intro">
+          <div class="intro-text-container">
+            <h1>This is an introduction</h1>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa
+              mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien
+              fringilla, mattis ligula consectetur, ultrices mauris. Maecenas
+              vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum
+              auctor ornare
+              <span class="highlight-yellow"
+                >this is a highlight for one section</span
+              >, non suscipit magna interdum eu. Lorem ipsum dolor sit amet
+              consectetur adipiscing elit <br /><br />
+              Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
+              sapien fringilla, mattis ligula consectetur, ultrices mauris.
+              Maecenas vitae mattis tellus. Nullam quis imperdiet augue.
+              Vestibulum auctor ornare leo, non suscipit magna interdum eu.
+            </p>
+          </div>
+          <video autoplay loop muted playsinline>
+            <source src="assets/temp.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <!-- Start AOA -->
+        <div class="aoa-text-section">
+          <div class="aoa-text-container">
+            <h2>My fellow Americans of all ages...</h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut et
+              massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien
+              fringilla, mattis ligula consectetur, ultrices mauris. Maecenas
+              vitae mattis tellus. Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Ut et massa mi. Aliquam in hendrerit urna.
+              Pellentesque sit amet sapien fringilla, mattis ligula consectetur,
+              <span class="highlight-yellow">Age of Aquisition</span> ultrices
+              mauris. Maecenas vitae mattis tellus. Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Ut et massa mi. Aliquam in hendrerit
+              urna. Pellentesque sit amet sapien fringilla, mattis ligula
+              consectetur, ultrices mauris. Maecenas vitae mattis tellus.
+            </p>
+          </div>
+        </div>
+        <div class="aoa-right-column">
+          <div class="img-section">
+            <img src="assets/gw-baby.jpg" alt="George Washington as a baby" />
+          </div>
+          <div class="aoa-info-box">
+            <div class="aoa-info-header">AGE OF AQUISITION</div>
+            <div class="info-body">
+              This is the term linguists use to indicate the age at which we
+              learn words. For example, "Mom" is learned at 2. Where as
+              "preponderance" hits around 17.
+            </div>
+          </div>
+        </div>
+        <div class="aoa-viz"></div>
+
+        <!-- Start ADC Section -->
+        <div class="adc-left-column">
+          <img src="assets/gw-baby.jpg" alt="George Washington as a baby" />
+          <div class="adc-info-box">
+            <div class="adc-info-header">
+              AROUSAL, DOMINANCE, AND CONCRETENESS
+            </div>
+            <div class="info-body">
+              This is a method used to classify the emotional content and tone
+              of words based on established dictionaries of affect and
+              sentiment.
+            </div>
+          </div>
+        </div>
+
+        <div class="adc-text-section">
+          <div class="adc-text-container">
+            <h2>My fellow Americans of all ages...</h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut et
+              massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien
+              fringilla, mattis ligula consectetur, ultrices mauris. Maecenas
+              vitae mattis tellus. Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Ut et massa mi.
+              <span class="highlight-orange">Aliquam in hendrerit urna.</span>
+              Pellentesque sit amet sapien fringilla, mattis ligula consectetur,
+              ultrices mauris. Maecenas vitae mattis tellus. Lorem ipsum dolor
+              sit amet consectetur adipisicing elit. Ut et massa mi. Aliquam in
+              hendrerit urna. Pellentesque sit amet sapien fringilla, mattis
+              ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.
+            </p>
+          </div>
+        </div>
+
+        <div class="adc-viz"></div>
+      </div>
+    </div>
+
+    <script src="aoa.js"></script>
+    <script src="adc.js"></script>
+  </body>
+</html>

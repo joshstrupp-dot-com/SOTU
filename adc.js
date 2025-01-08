@@ -167,9 +167,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add buttons
     const buttons = [
-      { id: "speech-btn", text: "Arousal", mode: "speech" },
-      { id: "bigWords-btn", text: "Dominance", mode: "bigWords" },
-      { id: "smallWords-btn", text: "Concreteness", mode: "smallWords" },
+      { id: "speech-btn", text: "Excitement", mode: "speech" },
+      { id: "bigWords-btn", text: "Power", mode: "bigWords" },
+      { id: "smallWords-btn", text: "Abstraction", mode: "smallWords" },
     ];
 
     buttons.forEach((button) => {

@@ -370,6 +370,7 @@ body {
 .adc-text-container {
   padding: 40px;
   max-width: 800px;
+  transform: translateY(-50px);
 }
 
 .adc-text-container h2 {
@@ -406,6 +407,8 @@ body {
   width: 100%;
   height: auto;
   display: block;
+  filter: grayscale(100%);
+  border: 1px solid #ccc;
 }
 
 .adc-info-header {
@@ -443,6 +446,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translateY(-50px);
 }
 
 .toxicity-text-container {
@@ -514,6 +518,7 @@ body {
   width: 100%;
   height: auto;
   display: block;
+  filter: grayscale(100%);
 }
 
 .toxicity-right-column .img-section {

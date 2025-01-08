@@ -169,9 +169,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add buttons
     const buttons = [
-      { id: "sentences-btn", text: "Sentences", mode: "sentences" },
-      { id: "bigWords-btn", text: "Words", mode: "bigWords" },
-      { id: "speech-btn", text: "Under 10", mode: "speech" },
+      { id: "sentences-btn", text: "Mature Sentences", mode: "sentences" },
+      { id: "bigWords-btn", text: "Mature Words", mode: "bigWords" },
+      { id: "speech-btn", text: "Under 10 Comprehension", mode: "speech" },
     ];
 
     buttons.forEach((button) => {
@@ -192,8 +192,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateAxisLabels(mode) {
       const labels = {
-        sentences: ["Younger", "Older"],
-        bigWords: ["Younger", "Older"],
+        sentences: ["Lower AoA", "Higher AoA"],
+        bigWords: ["Lower AoA", "Higher AoA"],
         speech: ["Lower Understanding", "Higher Understanding"],
       };
 

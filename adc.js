@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("y", 0)
     .attr("rx", 5)
     .attr("ry", 5)
-    .style("stroke", "black")
+    .style("stroke", "#ccc")
     .style("stroke-width", "1px")
     .attr("fill", "url(#adc-gradient)");
 
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .append("div")
       .attr("class", "button-container")
       .style("position", "absolute")
-      .style("top", "90px")
+      .style("top", "50px")
       .style("left", "50%")
       .style("transform", "translateX(-50%)");
 
@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Update left label
       const leftGroup = d3
-        .select(".axis-labels .left-group")
+        .select(".adc-viz .axis-labels .adc-left-group")
         .attr("transform", `translate(${width * 0.4}, ${height - 90})`);
 
       // Add text first to measure its width
@@ -213,14 +213,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       leftGroup
         .select("image")
-        .attr("x", -(leftTextWidth / 2 + 25)) // Position arrow to the left of text with padding
+        .attr("x", -(leftTextWidth / 2 + 25))
         .attr("y", -12.5)
         .attr("width", 16)
         .attr("height", 16);
 
       // Update right label
       const rightGroup = d3
-        .select(".axis-labels .right-group")
+        .select(".adc-viz .axis-labels .adc-right-group")
         .attr("transform", `translate(${width * 0.6}, ${height - 90})`);
 
       // Add text first to measure its width
@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       rightGroup
         .select("image")
-        .attr("x", rightTextWidth / 2 + 10) // Position arrow to the right of text with padding
+        .attr("x", rightTextWidth / 2 + 10)
         .attr("y", -12.5)
         .attr("width", 16)
         .attr("height", 16);
@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Create initial label groups (simplified)
     const leftGroup = labels
       .append("g")
-      .attr("class", "left-group")
+      .attr("class", "adc-left-group left-group")
       .attr("transform", `translate(${width * 0.4}, ${height - 90})`);
 
     leftGroup
@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const rightGroup = labels
       .append("g")
-      .attr("class", "right-group")
+      .attr("class", "adc-right-group right-group")
       .attr("transform", `translate(${width * 0.6}, ${height - 90})`);
 
     rightGroup
@@ -288,8 +288,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateVisualization(mode) {
       // Update button states
-      d3.selectAll(".toggle-btn").classed("active", false);
-      d3.select(`#${mode}-btn`).classed("active", true);
+      d3.selectAll(".adc-viz .toggle-btn").classed("active", false);
+      d3.select(`.adc-viz #${mode}-btn`).classed("active", true);
 
       // Update axis labels
       updateAxisLabels(mode);
@@ -312,13 +312,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showTooltip(event, d) {
       const [x, y] = d3.pointer(event);
+      const windowWidth = window.innerWidth;
+      const tooltipWidth = 300; // Approximate width of tooltip, adjust as needed
+
+      // If click is in right half of screen, show tooltip on left side of cursor
+      const xPosition =
+        event.pageX > windowWidth / 2
+          ? event.pageX - tooltipWidth - 10
+          : event.pageX + 10;
 
       tooltip
-        .style("left", event.pageX + 10 + "px")
+        .style("left", xPosition + "px")
         .style("top", event.pageY + 10 + "px")
         .style("display", "block");
 
-      const activeButtonId = d3.select(".toggle-btn.active").attr("id");
+      const activeButtonId = d3
+        .select(".adc-viz .toggle-btn.active")
+        .attr("id");
       let htmlContent = `<h3>${d.President}</h3>`;
 
       if (activeButtonId === "speech-btn") {
@@ -326,9 +336,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const highArousalWords = d.arousal_extremes.highest.map(
           (item) => item[0]
         );
-        const formattedWords = highArousalWords.join('," "');
+        const formattedWords = highArousalWords
+          .map((word) => `<span class="data-point">${word}</span>`)
+          .join('," "');
 
-        htmlContent += `${d.arousal_high_pct.toFixed(2)}% of ${
+        htmlContent += `<span class="data-point">${d.arousal_high_pct.toFixed(
+          2
+        )}</span>% of words in ${
           d.President
         }'s State of the Union speeches are categorized as "highly arousing." Some of these words include "${formattedWords}."`;
       } else if (activeButtonId === "bigWords-btn") {
@@ -336,9 +350,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const lowDominanceWords = d.dominance_extremes.lowest.map(
           (item) => item[0]
         );
-        const formattedWords = lowDominanceWords.join('," "');
+        const formattedWords = lowDominanceWords
+          .map((word) => `<span class="data-point">${word}</span>`)
+          .join('," "');
 
-        htmlContent += `${d.dominance_low_pct.toFixed(2)}% of ${
+        htmlContent += `<span class="data-point">${d.dominance_low_pct.toFixed(
+          2
+        )}</span>% of ${
           d.President
         }'s State of the Union speeches are categorized as "high dominance." Some of these words include "${formattedWords}."`;
       } else if (activeButtonId === "smallWords-btn") {
@@ -346,9 +364,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const highConcreteWords = d.concreteness_extremes.highest.map(
           (item) => item[0]
         );
-        const formattedWords = highConcreteWords.join('," "');
+        const formattedWords = highConcreteWords
+          .map((word) => `<span class="data-point">${word}</span>`)
+          .join('," "');
 
-        htmlContent += `${d.concreteness_high_pct.toFixed(2)}% of ${
+        htmlContent += `<span class="data-point">${d.concreteness_high_pct.toFixed(
+          2
+        )}</span>% of ${
           d.President
         }'s State of the Union speeches are categorized as "highly concrete." Some of these words include "${formattedWords}."`;
       }

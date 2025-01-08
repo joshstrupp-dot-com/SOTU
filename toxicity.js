@@ -2,14 +2,14 @@
 
 // Wait for DOM to be ready
 document.addEventListener("DOMContentLoaded", () => {
-  // Set up dimensions based on aoa-viz
-  const svgSection = document.querySelector(".aoa-viz");
+  // Set up dimensions based on toxicity-viz
+  const svgSection = document.querySelector(".toxicity-viz");
   const width = svgSection.clientWidth;
   const height = svgSection.clientHeight;
 
-  // Create SVG container within aoa-viz
+  // Create SVG container within toxicity-viz
   const svg = d3
-    .select(".aoa-viz")
+    .select(".toxicity-viz")
     .append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -38,12 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("ry", 5)
     .style("stroke", "#ccc")
     .style("stroke-width", "1px")
-    .attr("fill", "url(#gradient)");
+    .attr("fill", "url(#toxicity-gradient)");
 
   // Define linear gradient
   const gradient = defs
     .append("linearGradient")
-    .attr("id", "gradient")
+    .attr("id", "toxicity-gradient")
     .attr("x1", "0%")
     .attr("y1", "0%")
     .attr("x2", "100%")
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   gradient.append("stop").attr("offset", "0%").attr("stop-color", "#FFFFFF");
 
-  gradient.append("stop").attr("offset", "100%").attr("stop-color", "#FBFF7C");
+  gradient.append("stop").attr("offset", "100%").attr("stop-color", "#C6FF7C");
 
   // ! Define circle radius for each prez
   const radius = 30; // Circle radius
@@ -62,11 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
   ) {
     // Parse data and convert necessary fields to numbers
     data.forEach((d, i) => {
-      d.aoa_percentage = +d.aoa_percentage;
-      d.avg_biggest_words_rating = +d.avg_biggest_words_rating;
-      d.avg_smallest_words_rating = +d.avg_smallest_words_rating;
-      d.biggest_sentence_rating = +d.biggest_sentence_rating;
-      d.smallest_sentence_rating = +d.smallest_sentence_rating;
+      // Convert toxicity scores to numbers
+      d.highest_toxic_sentence.score = +d.highest_toxic_sentence.score;
+      d.avg_toxicity_score = +d.avg_toxicity_score;
 
       // Check if imagePath exists
       if (d.imagePath) {
@@ -91,18 +89,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Set up scales for different modes
     const xScales = {
-      sentences: d3
+      mostToxic: d3
         .scaleLinear()
-        .domain(d3.extent(data, (d) => d.biggest_sentence_rating))
-        .range([50, width - 50]),
-      bigWords: d3
+        .domain(d3.extent(data, (d) => d.highest_toxic_sentence.score))
+        .range([100, width - 100]),
+      avgToxic: d3
         .scaleLinear()
-        .domain(d3.extent(data, (d) => d.avg_biggest_words_rating))
-        .range([50, width - 50]),
-      speech: d3
-        .scaleLinear()
-        .domain(d3.extent(data, (d) => d.aoa_percentage))
-        .range([50, width - 50]),
+        .domain(d3.extent(data, (d) => d.avg_toxicity_score))
+        .range([150, width - 100]),
     };
 
     // Create initial simulation with stronger collision force
@@ -110,7 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .forceSimulation(data)
       .force(
         "x",
-        d3.forceX((d) => xScales.speech(d.aoa_percentage)).strength(0.2)
+        d3
+          .forceX((d) => xScales.mostToxic(d.highest_toxic_sentence.score))
+          .strength(0.2)
       )
       .force("y", d3.forceY(height / 2).strength(0.1))
       .force("collide", d3.forceCollide(radius + 1).strength(1)) // Increased strength and added 1px buffer
@@ -157,9 +153,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ! Buttons
 
-    // Create button container within aoa-viz
+    // Create button container within toxicity-viz
     const buttonContainer = d3
-      .select(".aoa-viz")
+      .select(".toxicity-viz")
       .append("div")
       .attr("class", "button-container")
       .style("position", "absolute")
@@ -169,16 +165,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add buttons
     const buttons = [
-      { id: "sentences-btn", text: "Sentences", mode: "sentences" },
-      { id: "bigWords-btn", text: "Words", mode: "bigWords" },
-      { id: "speech-btn", text: "Under 10", mode: "speech" },
+      { id: "mostToxic-btn", text: "Most Toxic Sentence", mode: "mostToxic" },
+      { id: "avgToxic-btn", text: "Average Toxicity", mode: "avgToxic" },
     ];
 
     buttons.forEach((button) => {
       buttonContainer
         .append("button")
         .attr("id", button.id)
-        .attr("class", `toggle-btn ${button.mode === "speech" ? "active" : ""}`)
+        .attr(
+          "class",
+          `toggle-btn ${button.mode === "mostToxic" ? "active" : ""}`
+        )
         .text(button.text.toUpperCase())
         .style("font-family", "Averia Serif Libre")
         .style("font-size", "14px")
@@ -192,14 +190,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateAxisLabels(mode) {
       const labels = {
-        sentences: ["Younger", "Older"],
-        bigWords: ["Younger", "Older"],
-        speech: ["Lower Understanding", "Higher Understanding"],
+        mostToxic: ["Less Toxic", "More Toxic"],
+        avgToxic: ["Less Toxic", "More Toxic"],
       };
 
       // Update left label
       const leftGroup = d3
-        .select(".aoa-viz .axis-labels .aoa-left-group")
+        .select(".toxicity-viz .axis-labels .toxicity-left-group")
         .attr("transform", `translate(${width * 0.4}, ${height - 90})`);
 
       // Add text first to measure its width
@@ -222,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Update right label
       const rightGroup = d3
-        .select(".aoa-viz .axis-labels .aoa-right-group")
+        .select(".toxicity-viz .axis-labels .toxicity-right-group")
         .attr("transform", `translate(${width * 0.6}, ${height - 90})`);
 
       // Add text first to measure its width
@@ -247,25 +244,51 @@ document.addEventListener("DOMContentLoaded", () => {
     // Create initial label groups (simplified)
     const leftGroup = labels
       .append("g")
-      .attr("class", "aoa-left-group left-group");
+      .attr("class", "toxicity-left-group left-group")
+      .attr("transform", `translate(${width * 0.4}, ${height - 90})`);
 
-    leftGroup.append("text");
-    leftGroup.append("image").attr("href", "assets/arrow-left.svg");
+    leftGroup
+      .append("text")
+      .attr("text-anchor", "middle")
+      .style("font-family", "RoughTypewriter")
+      .style("font-size", "16px")
+      .text("Less Toxic");
+
+    leftGroup
+      .append("image")
+      .attr("href", "assets/arrow-left.svg")
+      .attr("x", -69.3125)
+      .attr("y", -12.5)
+      .attr("width", 16)
+      .attr("height", 16);
 
     const rightGroup = labels
       .append("g")
-      .attr("class", "aoa-right-group right-group");
+      .attr("class", "toxicity-right-group right-group")
+      .attr("transform", `translate(${width * 0.6}, ${height - 90})`);
 
-    rightGroup.append("text");
-    rightGroup.append("image").attr("href", "assets/arrow-right.svg");
+    rightGroup
+      .append("text")
+      .attr("text-anchor", "middle")
+      .style("font-family", "RoughTypewriter")
+      .style("font-size", "16px")
+      .text("More Toxic");
 
-    // Set initial labels for speech mode
-    updateAxisLabels("speech");
+    rightGroup
+      .append("image")
+      .attr("href", "assets/arrow-right.svg")
+      .attr("x", 45.33203125)
+      .attr("y", -12.5)
+      .attr("width", 16)
+      .attr("height", 16);
+
+    // Set initial labels for mostToxic mode
+    updateAxisLabels("mostToxic");
 
     function updateVisualization(mode) {
       // Update button states
-      d3.selectAll(".aoa-viz .toggle-btn").classed("active", false);
-      d3.select(`.aoa-viz #${mode}-btn`).classed("active", true);
+      d3.selectAll(".toxicity-viz .toggle-btn").classed("active", false);
+      d3.select(`.toxicity-viz #${mode}-btn`).classed("active", true);
 
       // Update axis labels
       updateAxisLabels(mode);
@@ -273,12 +296,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const forceX = d3
         .forceX((d) => {
           switch (mode) {
-            case "sentences":
-              return xScales.sentences(d.biggest_sentence_rating);
-            case "bigWords":
-              return xScales.bigWords(d.avg_biggest_words_rating);
-            case "speech":
-              return xScales.speech(d.aoa_percentage);
+            case "mostToxic":
+              return xScales.mostToxic(d.highest_toxic_sentence.score);
+            case "avgToxic":
+              return xScales.avgToxic(d.avg_toxicity_score);
           }
         })
         .strength(0.2);
@@ -303,54 +324,23 @@ document.addEventListener("DOMContentLoaded", () => {
         .style("display", "block");
 
       const activeButtonId = d3
-        .select(".aoa-viz .toggle-btn.active")
+        .select(".toxicity-viz .toggle-btn.active")
         .attr("id");
       let htmlContent = `<h3>${d.President}</h3>`;
 
-      if (activeButtonId === "sentences-btn") {
-        htmlContent += `<strong>Sentence with highest average AoA: (<span class="data-point">${d.biggest_sentence_rating.toFixed(
-          2
-        )}</span>):</strong><br><span class="data-point">${
-          d.biggest_sentence
-        }</span><br><br>`;
-        htmlContent += `<strong>Smallest Sentence (Rating: <span class="data-point">${d.smallest_sentence_rating.toFixed(
-          2
-        )}</span>):</strong><br><span class="data-point">${
-          d.smallest_sentence
-        }</span>`;
-      } else if (activeButtonId === "bigWords-btn") {
-        htmlContent += `Of the words in ${
-          d.President
-        }'s speech, the average age of acquisition for 'more mature' words is <span class="data-point">${d.avg_biggest_words_rating.toFixed(
-          2
-        )}</span>.<br><br>Words with highest AoA include:<br><br>`;
-        if (
-          Array.isArray(d.biggest_words) &&
-          Array.isArray(d.biggest_words_definitions)
-        ) {
-          // Only show first three words
-          const numWordsToShow = Math.min(3, d.biggest_words.length);
-          for (let i = 0; i < numWordsToShow; i++) {
-            const word = d.biggest_words[i];
-            const definition =
-              d.biggest_words_definitions[i] || "No definition available";
-            // Capitalize first letter of word and definition, add period at end
-            const capitalizedWord =
-              word.charAt(0).toUpperCase() + word.slice(1);
-            const capitalizedDef =
-              definition.charAt(0).toUpperCase() + definition.slice(1);
-            const formattedDef = capitalizedDef.endsWith(".")
-              ? capitalizedDef
-              : capitalizedDef + ".";
-            htmlContent += `<strong><span class="data-point">${capitalizedWord}</span>:</strong> ${formattedDef}<br><br>`;
-          }
+      if (activeButtonId === "mostToxic-btn") {
+        // Format the score as a percentage with one decimal place
+        const toxicityScore = (d.highest_toxic_sentence.score * 100).toFixed(1);
+        htmlContent += `${d.President}'s most toxic sentence has a score of <span class="data-point">${toxicityScore}</span>: <span class="data-point">${d.highest_toxic_sentence.text}</span>`;
+      } else if (activeButtonId === "avgToxic-btn") {
+        // Format average toxicity as a percentage with one decimal place
+        const avgToxicityScore = (d.avg_toxicity_score * 1000).toFixed(1);
+        htmlContent += `For every 100 sentences in ${d.President}'s State of the Union addresses, <span class="data-point">${avgToxicityScore}</span> were labeled as "highly toxic"`;
+
+        // Check if there are multiple toxic sentences and add the second one as an example
+        if (d.top_toxic_sentences && d.top_toxic_sentences.length > 1) {
+          htmlContent += `, for example: <span class="data-point">${d.top_toxic_sentences[1].text}</span>`;
         }
-      } else if (activeButtonId === "speech-btn") {
-        htmlContent += `A ten-year-old watching ${
-          d.President
-        }'s State of The Union speech could understand <span class="data-point">${d.aoa_percentage.toFixed(
-          2
-        )}%</span> of it.`;
       }
 
       tooltip.html(htmlContent);

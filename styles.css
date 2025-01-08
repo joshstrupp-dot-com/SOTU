@@ -27,10 +27,10 @@ body {
 
 .intro-text-container {
   position: absolute;
-  top: 35%;
+  top: 30%;
   left: 0;
   transform: translateY(-50%);
-  padding: 100px;
+  padding: 75px;
   z-index: 1;
 }
 
@@ -46,15 +46,29 @@ body {
 
 .intro-text-container p {
   font-family: "Averia Serif Libre", serif;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 100;
   line-height: 28px;
   letter-spacing: 0em;
   text-align: left;
   column-count: 2;
-  column-gap: 30px;
+  column-gap: 50px;
   max-width: 800px;
   font-style: italic;
+}
+
+.attribution {
+  position: absolute;
+  bottom: 30%;
+  left: 6%;
+  font-family: "RoughTypewriter", monospace;
+  font-size: 14px;
+  z-index: 100;
+}
+
+.attribution a {
+  color: inherit;
+  text-decoration: underline;
 }
 
 .highlight-green {
@@ -506,4 +520,14 @@ body {
   background: none;
   height: auto;
   border: none;
+}
+
+.section-label {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-family: "Averia Serif Libre";
+  font-size: 14px;
+  padding: 4px 8px;
+  display: inline-block;
+  margin-bottom: 16px;
 }

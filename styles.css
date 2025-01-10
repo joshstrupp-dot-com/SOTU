@@ -63,7 +63,7 @@ body {
   position: absolute;
   top: 30%;
   left: 0;
-  transform: translateY(-50%);
+  transform: translateY(-35%);
   padding: 75px;
   z-index: 1;
 }

@@ -2,19 +2,39 @@
 
 // Wait for DOM to be ready
 document.addEventListener("DOMContentLoaded", () => {
-  // Set up dimensions based on toxicity-viz
-  const svgSection = document.querySelector(".toxicity-viz");
-  const width = svgSection.clientWidth;
-  const height = svgSection.clientHeight;
+  // Set up dimensions based on viewport
+  const width = window.innerWidth * 0.95; // 95% of viewport width
+  const height = window.innerHeight * 0.95; // 95% of viewport height
 
   // Create SVG container within toxicity-viz
   const svg = d3
     .select(".toxicity-viz")
     .append("svg")
-    .attr("width", width)
-    .attr("height", height)
+    .attr("width", "95vw")
+    .attr("height", "95vh")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .style("overflow", "visible");
+
+  // Add resize handler
+  window.addEventListener("resize", () => {
+    const newWidth = window.innerWidth * 0.95;
+    const newHeight = window.innerHeight * 0.95;
+    svg
+      .attr("width", "95vw")
+      .attr("height", "95vh")
+      .attr("viewBox", `0 0 ${newWidth} ${newHeight}`);
+
+    // Update background and gradient line
+    background.attr("width", newWidth - 50).attr("height", newHeight - 50);
+
+    gradientLine.attr("width", newWidth - 100).attr("y", newHeight / 2 - 10);
+
+    // Restart simulation to adjust positions
+    if (simulation) {
+      simulation.force("y", d3.forceY(newHeight / 2).strength(0.1));
+      simulation.alpha(0.3).restart();
+    }
+  });
 
   // Append defs for patterns and filters
   const defs = svg.append("defs");
@@ -27,18 +47,18 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("type", "saturate")
     .attr("values", "0");
 
-  // ! Create background rectangle with gradient
-  const background = svg
-    .append("rect")
-    .attr("width", width)
-    .attr("height", "90vh") // Match height to container
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("rx", 5)
-    .attr("ry", 5)
-    .style("stroke", "#ccc")
-    .style("stroke-width", "1px")
-    .attr("fill", "url(#toxicity-gradient)");
+  // // ! Create background rectangle with gradient
+  // const background = svg
+  //   .append("rect")
+  //   .attr("width", width - 50)
+  //   .attr("height", height - 50)
+  //   .attr("x", 25)
+  //   .attr("y", 25)
+  //   .attr("rx", 5)
+  //   .attr("ry", 5)
+  //   .style("stroke", "#ccc")
+  //   .style("stroke-width", "1px")
+  //   .attr("fill", "#FFFFFF");
 
   // Define linear gradient
   const gradient = defs
@@ -52,6 +72,17 @@ document.addEventListener("DOMContentLoaded", () => {
   gradient.append("stop").attr("offset", "0%").attr("stop-color", "#FFFFFF");
 
   gradient.append("stop").attr("offset", "100%").attr("stop-color", "#C6FF7C");
+
+  // Add gradient line
+  const gradientLine = svg
+    .append("rect")
+    .attr("width", width - 100) // Slightly narrower than background
+    .attr("height", 20) // Fixed height instead of viewport units
+    .attr("x", 50) // Center relative to background
+    .attr("y", height / 2 - 10) // Center vertically
+    .attr("rx", 5)
+    .attr("ry", 5)
+    .attr("fill", "url(#toxicity-gradient)");
 
   // ! Define circle radius for each prez
   const radius = 30; // Circle radius
@@ -165,8 +196,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add buttons
     const buttons = [
-      { id: "mostToxic-btn", text: "Most Toxic Sentence", mode: "mostToxic" },
-      { id: "avgToxic-btn", text: "Average Toxicity", mode: "avgToxic" },
+      {
+        id: "mostToxic-btn",
+        text: "Most Politiczed Sentence",
+        mode: "mostToxic",
+      },
+      { id: "avgToxic-btn", text: "Average Politcization", mode: "avgToxic" },
     ];
 
     buttons.forEach((button) => {
@@ -331,11 +366,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (activeButtonId === "mostToxic-btn") {
         // Format the score as a percentage with one decimal place
         const toxicityScore = (d.highest_toxic_sentence.score * 100).toFixed(1);
-        htmlContent += `${d.President}'s most toxic sentence has a score of <span class="data-point">${toxicityScore}</span>: <span class="data-point">${d.highest_toxic_sentence.text}</span>`;
+        htmlContent += `${d.President}'s most politically provacative has a score of <span class="data-point">${toxicityScore}</span>: <span class="data-point">${d.highest_toxic_sentence.text}</span>`;
       } else if (activeButtonId === "avgToxic-btn") {
         // Format average toxicity as a percentage with one decimal place
         const avgToxicityScore = (d.avg_toxicity_score * 1000).toFixed(1);
-        htmlContent += `For every 100 sentences in ${d.President}'s State of the Union addresses, <span class="data-point">${avgToxicityScore}</span> were labeled as "highly toxic"`;
+        htmlContent += `For every 100 sentences in ${d.President}'s State of the Union addresses, <span class="data-point">${avgToxicityScore}</span> were labeled as highly politically provacative, or "highly toxic"`;
 
         // Check if there are multiple toxic sentences and add the second one as an example
         if (d.top_toxic_sentences && d.top_toxic_sentences.length > 1) {

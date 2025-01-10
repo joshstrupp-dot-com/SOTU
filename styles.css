@@ -14,8 +14,21 @@ body {
 .container {
   max-width: 1920px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 25px;
   height: 100%;
+  background: linear-gradient(
+    to bottom,
+    white 0%,
+    white 20%,
+    rgba(251, 255, 124, 0.2) 25%,
+    rgba(251, 255, 124, 0.2) 40%,
+    rgba(255, 217, 102, 0.2) 45%,
+    rgba(255, 217, 102, 0.2) 60%,
+    rgba(198, 255, 124, 0.2) 65%,
+    rgba(198, 255, 124, 0.2) 80%,
+    white 85%,
+    white 100%
+  );
 }
 
 .content {
@@ -25,9 +38,30 @@ body {
   height: 100%;
 }
 
+.intro {
+  grid-column: 1 / -1;
+  background: #fff;
+  border: 1px solid #ccc;
+  height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.gumball-viz {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 33%;
+  height: 100%;
+  pointer-events: none;
+}
+
 .intro-text-container {
   position: absolute;
-  top: 30%;
+  top: 40%;
   left: 0;
   transform: translateY(-50%);
   padding: 75px;
@@ -41,26 +75,35 @@ body {
   line-height: 100px;
   letter-spacing: 0em;
   text-align: left;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
 }
 
 .intro-text-container p {
   font-family: "Averia Serif Libre", serif;
   font-size: 18px;
   font-weight: 100;
-  line-height: 28px;
+  line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
   column-count: 2;
   column-gap: 50px;
-  max-width: 800px;
+  max-width: 50%;
   font-style: italic;
 }
 
+/* .intro video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  opacity: 0.1;
+} */
+
 .attribution {
   position: absolute;
-  bottom: 30%;
-  left: 6%;
+  bottom: 5%;
+  left: 75px;
   font-family: "RoughTypewriter", monospace;
   font-size: 14px;
   z-index: 100;
@@ -92,25 +135,7 @@ body {
   color: inherit;
 }
 
-.intro {
-  grid-column: 1 / -1;
-  background: #eee;
-  height: 1100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-}
-
-.intro video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(100%);
-  opacity: 0.1;
-}
+/* ! AoA */
 
 .aoa-text-section {
   height: 800px;
@@ -120,7 +145,7 @@ body {
 }
 
 .aoa-text-container {
-  padding: 40px;
+  padding: 100px;
   max-width: 800px;
 }
 
@@ -136,7 +161,7 @@ body {
 
 .aoa-text-container p {
   font-family: "Averia Serif Libre", serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 100;
   line-height: 20px;
   letter-spacing: 0em;
@@ -147,30 +172,37 @@ body {
 }
 
 .aoa-right-column {
-  padding: 32px;
+  padding: 80px;
   display: flex;
   flex-direction: column;
-  gap: 100px;
-  transform: translateY(-450px);
+  gap: 25px;
+  /* transform: translateY(-450px); */
 }
 
 .img-section {
-  background: #eee;
-  height: 800px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  /* border: 1px solid black; */
-  border-radius: 5px;
+  width: 100%;
+  height: 500px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: visible;
 }
 
-.img-section img {
+.img-section .gw-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   filter: grayscale(100%);
   border-radius: 5px;
+}
+
+.img-section .speech-bubble {
+  position: absolute;
+  width: 60%;
+  height: auto;
+  top: 8%;
+  right: 50%;
+  transform: rotate(5deg);
+  z-index: 2;
 }
 
 .aoa-info-box {
@@ -200,20 +232,25 @@ body {
 }
 
 .aoa-info-box img {
-  width: 100%;
+  width: 80%;
   height: auto;
   display: block;
 }
 
+/* ! VIZ */
+
 .aoa-viz {
   grid-column: 1 / -1;
-  height: 80vh;
+  height: 95vh;
   position: relative;
   overflow: visible;
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(-400px);
+  /* transform: translateY(-400px); */
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .adc-viz {
@@ -224,7 +261,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(-400px);
+  /* transform: translateY(-400px); */
 }
 
 .labels-container {
@@ -359,18 +396,18 @@ body {
   }
 }
 
-/* ADC Styles */
+/* ! ADC */
+
 .adc-text-section {
-  height: 100px;
+  height: 800px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .adc-text-container {
-  padding: 40px;
+  padding: 100px;
   max-width: 800px;
-  transform: translateY(-50px);
 }
 
 .adc-text-container h2 {
@@ -385,7 +422,7 @@ body {
 
 .adc-text-container p {
   font-family: "Averia Serif Libre", serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 100;
   line-height: 20px;
   letter-spacing: 0em;
@@ -396,30 +433,48 @@ body {
 }
 
 .adc-left-column {
-  padding: 32px;
+  padding: 80px;
   display: flex;
   flex-direction: column;
-  gap: 100px;
-  transform: translateY(-450px);
+  gap: 25px;
 }
 
-.adc-left-column img {
+.adc-left-column .img-section {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 500px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: visible;
+}
+
+.adc-left-column .img-section .dubya-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   filter: grayscale(100%);
-  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.adc-left-column .img-section .speech-bubble {
+  position: absolute;
+  width: 45%;
+  height: auto;
+  top: 10%;
+  right: -15%;
+  transform: rotate(5deg);
+  z-index: 2;
 }
 
 .adc-info-header {
   background-color: #ffd966;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid black;
   border-radius: 5px 5px 0 0;
   font-family: "Averia Serif Libre";
   font-size: 22px;
   padding: 20px 20px;
   text-align: left;
 }
+
 .adc-info-box {
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -431,26 +486,27 @@ body {
 
 .adc-viz {
   grid-column: 1 / -1;
-  height: 80vh;
+  height: 95vh;
   position: relative;
   overflow: visible;
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(-400px);
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 /* Toxicity Section Styles */
 .toxicity-text-section {
-  height: 100px;
+  height: 800px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-50px);
 }
 
 .toxicity-text-container {
-  padding: 40px;
+  padding: 100px;
   max-width: 800px;
 }
 
@@ -466,7 +522,7 @@ body {
 
 .toxicity-text-container p {
   font-family: "Averia Serif Libre", serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 100;
   line-height: 20px;
   letter-spacing: 0em;
@@ -477,11 +533,36 @@ body {
 }
 
 .toxicity-right-column {
-  padding: 32px;
+  padding: 80px;
   display: flex;
   flex-direction: column;
-  gap: 100px;
-  transform: translateY(-450px);
+  gap: 25px;
+}
+
+.toxicity-right-column .img-section {
+  width: 100%;
+  height: 500px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: visible;
+}
+
+.toxicity-right-column .img-section .teddy-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  border-radius: 5px;
+}
+
+.toxicity-right-column .img-section .speech-bubble {
+  position: absolute;
+  width: 55%;
+  height: auto;
+  top: 10%;
+  right: 65%;
+  transform: rotate(5deg);
+  z-index: 2;
 }
 
 .toxicity-info-box {
@@ -505,26 +586,15 @@ body {
 
 .toxicity-viz {
   grid-column: 1 / -1;
-  height: 80vh;
+  height: 95vh;
   position: relative;
   overflow: visible;
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(-400px);
-}
-
-.toxicity-right-column img {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: grayscale(100%);
-}
-
-.toxicity-right-column .img-section {
-  background: none;
-  height: auto;
-  border: none;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .section-label {
@@ -535,4 +605,51 @@ body {
   padding: 4px 8px;
   display: inline-block;
   margin-bottom: 16px;
+}
+
+/* Conclusion Section Styles */
+.conclusion {
+  grid-column: 1 / -1;
+  background: #fff;
+  border: 1px solid #ccc;
+  height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.conclusion-text-container {
+  padding: 75px;
+  max-width: 1200px;
+}
+
+.conclusion-text-container h1 {
+  font-family: "Sketch Gothic School", sans-serif;
+  font-size: 100px;
+  font-weight: 100;
+  line-height: 100px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-bottom: 50px;
+}
+
+.conclusion-text-container p {
+  font-family: "Averia Serif Libre", serif;
+  font-size: 18px;
+  font-weight: 100;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  column-count: 2;
+  column-gap: 50px;
+  max-width: 100%;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
 }

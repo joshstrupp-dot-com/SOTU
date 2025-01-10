@@ -20,6 +20,7 @@
       rel="stylesheet"
     />
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="gumball.js"></script>
   </head>
   <body>
     <div class="container">
@@ -32,9 +33,9 @@
               tune in. By the tens of millions, Americans listen to a calculated
               speech, occasionally interrupted by lopsided standing ovations.
               <br /><br />
-              I’m one of those Americans. I watch. I listen. I try and hang on
-              ‘til the end but never make it because it’s a Hallmark movie where
-              the characters aren’t hot. The SOTU is predictable and highly
+              I'm one of those Americans. I watch. I listen. I try and hang on
+              'til the end but never make it because it's a Hallmark movie where
+              the characters aren't hot. The SOTU is predictable and highly
               scripted, where every conflict has a clear resolution. So I set
               out to look at
               <a
@@ -53,15 +54,16 @@
               politically provocative language.
             </p>
           </div>
+          <div class="gumball-viz"></div>
 
           <div class="attribution">
             Data & words by me,
             <a href="https://joshstrupp.com" target="_blank">Josh</a>.
           </div>
 
-          <video autoplay loop muted playsinline>
+          <!-- <video autoplay loop muted playsinline>
             <source src="assets/temp.mp4" type="video/mp4" />
-          </video>
+          </video> -->
         </div>
         <!-- Start AOA -->
         <div class="aoa-text-section">
@@ -101,7 +103,16 @@
         </div>
         <div class="aoa-right-column">
           <div class="img-section">
-            <img src="assets/gw-baby.jpg" alt="George Washington as a baby" />
+            <img
+              src="assets/gw-speechbub.svg"
+              alt="Speech bubble"
+              class="speech-bubble"
+            />
+            <img
+              src="assets/gw-baby.jpg"
+              alt="George Washington as a baby"
+              class="gw-image"
+            />
           </div>
           <div class="aoa-info-box">
             <div class="aoa-info-header">AGE OF AQUISITION (AoA)</div>
@@ -112,8 +123,8 @@
                 target="_blank"
                 >30,000 word corpus</a
               >, where each word is assigned an estimated age by which the word
-              can be comprehended. For example, "Mom" is learned at 2. Where as
-              "preponderance" hits around 17.
+              can be comprehended, or an "Age of Aquisition". For example, "Mom"
+              is learned at 2. Where as "preponderance" hits around 17.
             </div>
           </div>
         </div>
@@ -121,10 +132,18 @@
 
         <!-- Start ADC Section -->
         <div class="adc-left-column">
-          <img
-            src="assets/congress-disco.jpg"
-            alt="George Washington as a baby"
-          />
+          <div class="img-section">
+            <img
+              src="assets/dubya-speechbub.svg"
+              alt="Speech bubble"
+              class="speech-bubble"
+            />
+            <img
+              src="assets/dubya-drill.jpg"
+              alt="George W Bush"
+              class="dubya-image"
+            />
+          </div>
           <div class="adc-info-box">
             <div class="adc-info-header">
               AROUSAL, DOMINANCE, & CONCRETENESS
@@ -137,7 +156,7 @@
                 >model</a
               >
               that extrapolates and analyzes English words to determine arousal
-              (emotionally “exciting” or intense), dominance (words thart
+              (emotionally "exciting" or intense), dominance (words thart
               suggest power, influence, or control), and concreteness (words
               that refer to things you can see, touch, or otherwise experience
               directly with your senses).
@@ -161,11 +180,16 @@
               prevailed over abstraction. From the onset of the civil war up
               through WWI, things were incredibly nonconceptual — time to talk
               in military, not heady, parlance. Guns are guns. Foes are foes.
-              To. The. Point. <br /><br />But concreteness dips just after as
-              reform movements and growing globalization set in. To communicate
-              big ideas like international diplomacy and social welfare
-              programs, abstract language was needed. <br /><br />Words that
-              evoke power and excitement follow a similar trend, with some
+              To. The. Point. <br /><br />But
+              <a
+                href="https://github.com/joshstrupp-dot-com/SOTU/blob/main/charts/Concreteness%20over%20time.png"
+                target="_blank"
+                >concreteness dips</a
+              >
+              just after as reform movements and growing globalization set in.
+              To communicate big ideas like international diplomacy and social
+              welfare programs, abstract language was needed. <br /><br />Words
+              that evoke power and excitement follow a similar trend, with some
               notable exceptions: likely due to 9/11,
               <span class="highlight-orange">George W. Bush</span>'s language,
               infused with overtones of conquest and revenge, ranks ahead of the
@@ -193,7 +217,12 @@
               teleprompters. Perhaps it was the reality tv-ication of our
               politics. Regardless,
               <span class="highlight-green">Trump</span> is an outlier, using
-              language clocked as “toxic” twice the average.
+              language clocked as "toxic"
+              <a
+                href="https://github.com/joshstrupp-dot-com/SOTU/blob/main/charts/Offensive%20language%20over%20time.png"
+                target="_blank"
+                >twice the average</a
+              >.
 
               <br /><br />Strangely, the only other presidents that creep toward
               the top of heavily politicized penthouse of Trump Tower are
@@ -211,7 +240,16 @@
         </div>
         <div class="toxicity-right-column">
           <div class="img-section">
-            <img src="assets/burn-pen.jpg" alt="Congress dancing" />
+            <img
+              src="assets/teddy-speechbub.svg"
+              alt="Speech bubble"
+              class="speech-bubble"
+            />
+            <img
+              src="assets/teddy-witch.jpg"
+              alt="Teddy Roosevelt"
+              class="teddy-image"
+            />
           </div>
           <div class="toxicity-info-box">
             <div class="toxicity-info-header">TOXICITY</div>
@@ -229,6 +267,32 @@
           </div>
         </div>
         <div class="toxicity-viz"></div>
+
+        <!-- Conclusion Section -->
+        <div class="conclusion">
+          <div class="conclusion-text-container">
+            <h1>God bless America and goodnight.</h1>
+            <p>
+              Donald Trump is a president defined (mostly) by his speech. The
+              way he addresses the public carries a tone and attitude that
+              communicates something his words don't. And whatever it is, a
+              narrow majority loves it. <br /><br />Donald's SOTU ratings are
+              better than Biden's, but still lesser than George W. Bush and Bill
+              Clinton. Don't tell him. So if you do tune in, consider the
+              message beneath the message. <br /><br />Thanks for stopping by. I
+              hope you learned a thing or two. If you would like to explore the
+              code, check it out on
+              <a
+                href="https://github.com/joshstrupp-dot-com/SOTU"
+                target="_blank"
+                >Github</a
+              >. If you're interested more in the author (I'm blushing) visit
+              his (my)
+              <a href="https://www.joshstrupp.com/" target="_blank">portfolio</a
+              >.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 

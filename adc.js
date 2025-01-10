@@ -84,8 +84,10 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("ry", 5)
     .attr("fill", "url(#adc-gradient)");
 
-  // ! Define circle radius for each prez
-  const radius = 30; // Circle radius
+  // Define circle radius for each prez - adjust based on screen size
+  const baseRadius = 30;
+  const radius =
+    window.innerWidth <= 480 ? 20 : window.innerWidth <= 768 ? 30 : baseRadius;
 
   // ! Load data
   d3.json("results_with_affect_and_toxicity_updated.json").then(function (
@@ -192,9 +194,13 @@ document.addEventListener("DOMContentLoaded", () => {
       .append("div")
       .attr("class", "button-container")
       .style("position", "absolute")
-      .style("top", "50px")
+      .style("top", window.innerWidth <= 768 ? "20px" : "50px")
       .style("left", "50%")
-      .style("transform", "translateX(-50%)");
+      .style("transform", "translateX(-50%)")
+      .style("display", "flex")
+      .style("flex-direction", window.innerWidth <= 768 ? "column" : "row")
+      .style("gap", window.innerWidth <= 768 ? "8px" : "5px")
+      .style("width", window.innerWidth <= 768 ? "calc(100% - 48px)" : "auto");
 
     // Add buttons
     const buttons = [
@@ -219,6 +225,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add labels container
     const labels = svg.append("g").attr("class", "axis-labels");
 
+    function getFontSize() {
+      return window.innerWidth <= 480
+        ? "12px"
+        : window.innerWidth <= 768
+        ? "14px"
+        : "16px";
+    }
+
     function updateAxisLabels(mode) {
       const labels = {
         speech: ["Lower Arousal", "Higher Arousal"],
@@ -229,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Update left label
       const leftGroup = d3
         .select(".adc-viz .axis-labels .adc-left-group")
-        .attr("transform", `translate(${width * 0.4}, ${height - 90})`);
+        .attr("transform", `translate(${width * 0.35}, ${height - 90})`);
 
       // Add text first to measure its width
       const leftText = leftGroup
@@ -237,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .text(labels[mode][0])
         .attr("text-anchor", "middle")
         .style("font-family", "RoughTypewriter")
-        .style("font-size", "16px");
+        .style("font-size", getFontSize());
 
       // Get text width and position arrow accordingly
       const leftTextWidth = leftText.node().getBBox().width;
@@ -252,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Update right label
       const rightGroup = d3
         .select(".adc-viz .axis-labels .adc-right-group")
-        .attr("transform", `translate(${width * 0.6}, ${height - 90})`);
+        .attr("transform", `translate(${width * 0.65}, ${height - 90})`);
 
       // Add text first to measure its width
       const rightText = rightGroup
@@ -260,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .text(labels[mode][1])
         .attr("text-anchor", "middle")
         .style("font-family", "RoughTypewriter")
-        .style("font-size", "16px");
+        .style("font-size", getFontSize());
 
       // Get text width and position arrow accordingly
       const rightTextWidth = rightText.node().getBBox().width;
@@ -277,13 +291,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const leftGroup = labels
       .append("g")
       .attr("class", "adc-left-group left-group")
-      .attr("transform", `translate(${width * 0.4}, ${height - 90})`);
+      .attr("transform", `translate(${width * 0.35}, ${height - 90})`);
 
     leftGroup
       .append("text")
       .attr("text-anchor", "middle")
       .style("font-family", "RoughTypewriter")
-      .style("font-size", "16px")
+      .style("font-size", getFontSize())
       .text("Lower Arousal");
 
     leftGroup
@@ -297,13 +311,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const rightGroup = labels
       .append("g")
       .attr("class", "adc-right-group right-group")
-      .attr("transform", `translate(${width * 0.6}, ${height - 90})`);
+      .attr("transform", `translate(${width * 0.65}, ${height - 90})`);
 
     rightGroup
       .append("text")
       .attr("text-anchor", "middle")
       .style("font-family", "RoughTypewriter")
-      .style("font-size", "16px")
+      .style("font-size", getFontSize())
       .text("Higher Arousal");
 
     rightGroup
@@ -342,20 +356,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function showTooltip(event, d) {
-      const [x, y] = d3.pointer(event);
-      const windowWidth = window.innerWidth;
-      const tooltipWidth = 300; // Approximate width of tooltip, adjust as needed
+      const isMobile = window.innerWidth <= 768;
+      const tooltipWidth = isMobile ? 250 : 300;
 
-      // If click is in right half of screen, show tooltip on left side of cursor
-      const xPosition =
-        event.pageX > windowWidth / 2
-          ? event.pageX - tooltipWidth - 10
-          : event.pageX + 10;
+      let xPosition, yPosition;
+
+      if (isMobile) {
+        // On mobile, position tooltip in the center of the screen
+        xPosition = window.innerWidth / 2 - tooltipWidth / 2;
+        yPosition = window.innerHeight / 2 - 100;
+      } else {
+        // On desktop, position near the cursor
+        xPosition =
+          event.pageX > window.innerWidth / 2
+            ? event.pageX - tooltipWidth - 10
+            : event.pageX + 10;
+        yPosition = event.pageY + 10;
+      }
 
       tooltip
         .style("left", xPosition + "px")
-        .style("top", event.pageY + 10 + "px")
-        .style("display", "block");
+        .style("top", yPosition + "px")
+        .style("display", "block")
+        .style("max-width", tooltipWidth + "px");
 
       const activeButtonId = d3
         .select(".adc-viz .toggle-btn.active")
@@ -413,5 +436,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function hideTooltip() {
       tooltip.style("display", "none");
     }
+
+    // Add touch event handling for mobile
+    nodes.on("touchstart", function (event) {
+      event.preventDefault();
+      const touch = event.touches[0];
+      showTooltip(touch, d3.select(this).datum());
+    });
   });
 });

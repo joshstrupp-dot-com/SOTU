@@ -363,9 +363,9 @@ document.addEventListener("DOMContentLoaded", () => {
       let xPosition, yPosition;
 
       if (isMobile) {
-        // On mobile, position tooltip in the center of the screen
+        // Center the tooltip on mobile and position it in the middle of the screen
         xPosition = window.innerWidth / 2 - tooltipWidth / 2;
-        yPosition = window.innerHeight / 2 - 100;
+        yPosition = window.innerHeight / 3; // Position it higher up
       } else {
         // On desktop, position near the cursor
         xPosition =
@@ -379,7 +379,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .style("left", xPosition + "px")
         .style("top", yPosition + "px")
         .style("display", "block")
-        .style("max-width", tooltipWidth + "px");
+        .style("max-width", tooltipWidth + "px")
+        .style("position", isMobile ? "fixed" : "absolute") // Use fixed positioning only on mobile
+        .style("z-index", "1000"); // Ensure tooltip is above other elements
 
       const activeButtonId = d3
         .select(".toxicity-viz .toggle-btn.active")
@@ -412,8 +414,25 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add touch event handling for mobile
     nodes.on("touchstart", function (event) {
       event.preventDefault();
+      event.stopPropagation();
       const touch = event.touches[0];
       showTooltip(touch, d3.select(this).datum());
     });
+
+    // Add touch event handling for document to close tooltip
+    document.addEventListener(
+      "touchstart",
+      function (event) {
+        const tooltip = document.getElementById("tooltip");
+        if (
+          tooltip &&
+          !event.target.tagName === "circle" &&
+          !tooltip.contains(event.target)
+        ) {
+          hideTooltip();
+        }
+      },
+      { passive: false }
+    );
   });
 });

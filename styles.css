@@ -489,6 +489,12 @@ body {
     padding: 20px;
   }
 
+  .aoa-text-container p,
+  .adc-text-container p,
+  .toxicity-text-container p {
+    column-count: 1;
+  }
+
   .aoa-text-container h2,
   .adc-text-container h2,
   .toxicity-text-container h2 {
@@ -534,10 +540,21 @@ body {
   .attribution {
     left: 24px;
     bottom: 24px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
   }
 
   .axis-labels text {
     font-size: 12px;
+  }
+
+  .adc-left-column,
+  .adc-text-container,
+  .toxicity-right-column,
+  .toxicity-text-container {
+    padding: 20px !important;
   }
 }
 
@@ -550,16 +567,18 @@ body {
   }
 
   .aoa-text-section {
-    height: 600px;
+    height: auto;
+    min-height: 0px;
+    margin-top: 0px;
   }
 
   .intro-text-container p,
   .aoa-text-container p,
   .adc-text-container p,
-  .toxicity-text-container p,
-  .conclusion-text-container p {
+  .toxicity-text-container p {
     font-size: 14px;
     line-height: 20px;
+    column-count: 1 !important;
   }
 
   .img-section {

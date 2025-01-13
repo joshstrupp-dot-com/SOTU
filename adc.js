@@ -385,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const activeButtonId = d3
         .select(".adc-viz .toggle-btn.active")
         .attr("id");
-      let htmlContent = `<h3>${d.President}</h3>`;
+      let htmlContent = `<h3>${d.President} <span style="color: #ccc; font-size: 11px">${d.Years}</span></h3>`;
 
       if (activeButtonId === "speech-btn") {
         // Extract just the words from the highest arousal words

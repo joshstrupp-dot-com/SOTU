@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const activeButtonId = d3
         .select(".aoa-viz .toggle-btn.active")
         .attr("id");
-      let htmlContent = `<h3>${d.President}</h3>`;
+      let htmlContent = `<h3>${d.President} <span style="color: #ccc; font-size: 11px">${d.Years}</span></h3>`;
 
       if (activeButtonId === "sentences-btn") {
         htmlContent += `<strong>Sentence with highest average AoA: (<span class="data-point">${d.biggest_sentence_rating.toFixed(

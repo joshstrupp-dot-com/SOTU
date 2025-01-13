@@ -204,10 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttons = [
       {
         id: "mostToxic-btn",
-        text: "Most Politiczed Sentence",
+        text: "Most Politicized Sentence",
         mode: "mostToxic",
       },
-      { id: "avgToxic-btn", text: "Average Politcization", mode: "avgToxic" },
+      { id: "avgToxic-btn", text: "Average Politicization", mode: "avgToxic" },
     ];
 
     buttons.forEach((button) => {
@@ -386,7 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const activeButtonId = d3
         .select(".toxicity-viz .toggle-btn.active")
         .attr("id");
-      let htmlContent = `<h3>${d.President}</h3>`;
+      let htmlContent = `<h3>${d.President} <span style="color: #ccc; font-size: 11px">${d.Years}</span></h3>`;
 
       if (activeButtonId === "mostToxic-btn") {
         // Format the score as a percentage with one decimal place

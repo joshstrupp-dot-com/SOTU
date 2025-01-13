@@ -919,3 +919,17 @@ body {
     line-height: 20px;
   }
 }
+
+/* Specific adjustments for medium-large screens */
+@media (min-width: 1025px) and (max-width: 1225px) {
+  .intro-text-container h1 {
+    font-size: 60px;
+    line-height: 80px;
+    padding-bottom: 40px;
+  }
+
+  .intro-text-container p {
+    font-size: 16px;
+    line-height: 22px;
+  }
+}

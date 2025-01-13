@@ -25,7 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Define circle radius - adjust based on screen size
   const baseRadius = 40;
-  const radius = window.innerWidth <= 768 ? baseRadius * 0.6 : baseRadius;
+  const radius =
+    window.innerWidth <= 768
+      ? baseRadius * 0.6
+      : window.innerWidth <= 1024
+      ? baseRadius * 0.75
+      : baseRadius;
 
   // Load data
   d3.json("results_with_affect_and_toxicity_updated.json").then(function (

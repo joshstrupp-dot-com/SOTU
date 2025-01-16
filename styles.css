@@ -7,6 +7,17 @@
   box-sizing: border-box;
 }
 
+a {
+  color: black;
+  text-decoration: underline;
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: #ccc;
+  /* font-weight: bold; */
+}
+
 body {
   min-height: 8944px;
 }
@@ -416,11 +427,26 @@ body {
     width: 50%;
   }
 
+  .aoa-text-section,
+  .adc-text-section,
+  .toxicity-text-section {
+    height: 500px !important;
+    /* max-height: 500px !important; */
+    /* min-height: 500px !important; */
+    /* padding-top: 20px; */
+    /* padding-bottom: 20px; */
+  }
+
+  .adc-text-section {
+    padding-bottom: 75px;
+  }
+
   .aoa-text-container,
   .adc-text-container,
   .toxicity-text-container {
     padding: 40px;
     max-width: 100%;
+    height: auto;
   }
 
   .aoa-text-container h2,
@@ -561,7 +587,27 @@ body {
 /* ////////////MOBILE////////// */
 
 @media (max-width: 480px) {
-  .intro-text-container h1 {
+  .container {
+    padding: 8px;
+  }
+
+  /* .content {
+    gap: 16px;
+    padding: 0;
+  } */
+
+  .intro {
+    /* margin: 0 8px; */
+    /* width: calc(100% - 16px); */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /* height: 95vh; */
+  }
+  */ .intro-text-container {
+    padding: 24px;
+    position: relative;
+  }
+  */ .intro-text-container h1 {
     font-size: 28px;
     line-height: 36px;
   }
@@ -586,7 +632,9 @@ body {
   }
 
   .img-section .speech-bubble {
-    width: 60%;
+    width: 70%;
+    top: 15%;
+    right: 40%;
   }
 
   .aoa-info-header,
@@ -686,7 +734,7 @@ body {
   width: 50%;
   height: auto;
   top: 50%;
-  right: -15%;
+  right: 1%;
   transform: rotate(5deg);
   z-index: 2;
 }
@@ -838,21 +886,23 @@ body {
   grid-column: 1 / -1;
   background: #fff;
   border: 1px solid #ccc;
-  height: 95vh;
+  height: auto;
+  min-height: auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   overflow: hidden;
   position: relative;
+  padding: 75px;
 }
 
 .conclusion-text-container {
-  position: absolute;
-  top: 30%;
-  left: 0;
-  transform: translateY(-50%);
-  padding: 75px;
+  position: relative;
+  top: auto;
+  left: auto;
+  padding: 0;
   z-index: 1;
+  width: 100%;
 }
 
 .conclusion-text-container h1 {
@@ -932,4 +982,49 @@ body {
     font-size: 16px;
     line-height: 22px;
   }
+}
+
+/* Animation Classes */
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+/* Apply fade-in class to major sections */
+.intro,
+.aoa-text-section,
+.aoa-right-column,
+.aoa-viz,
+.adc-text-section,
+.adc-left-column,
+.adc-viz,
+.toxicity-text-section,
+.toxicity-right-column,
+.toxicity-viz,
+.conclusion {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+.intro.visible,
+.aoa-text-section.visible,
+.aoa-right-column.visible,
+.aoa-viz.visible,
+.adc-text-section.visible,
+.adc-left-column.visible,
+.adc-viz.visible,
+.toxicity-text-section.visible,
+.toxicity-right-column.visible,
+.toxicity-viz.visible,
+.conclusion.visible {
+  opacity: 1;
+}
+
+/* Keep gumball-viz visible */
+.gumball-viz {
+  opacity: 1 !important;
 }

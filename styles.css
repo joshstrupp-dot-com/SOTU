@@ -430,15 +430,13 @@ body {
   .aoa-text-section,
   .adc-text-section,
   .toxicity-text-section {
-    height: 500px !important;
-    /* max-height: 500px !important; */
-    /* min-height: 500px !important; */
-    /* padding-top: 20px; */
-    /* padding-bottom: 20px; */
+    height: auto !important;
+    min-height: auto !important;
+    padding: 40px 0;
   }
 
   .adc-text-section {
-    padding-bottom: 75px;
+    padding-bottom: 40px;
   }
 
   .aoa-text-container,
@@ -614,8 +612,8 @@ body {
 
   .aoa-text-section {
     height: auto;
-    min-height: 0px;
-    margin-top: 0px;
+    min-height: auto;
+    margin: 20px 0;
   }
 
   .intro-text-container p,
